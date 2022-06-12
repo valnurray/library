@@ -7,10 +7,15 @@ import lombok.NoArgsConstructor;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -44,12 +49,22 @@ public class User {
     @Column(name = "birthday")
     private Date birthday;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
+
 //    @Column(name = "role_id", nullable = false)
 //    private long roleId;
 
-    @ManyToOne(optional=false, cascade= CascadeType.ALL)
-    @JoinColumn(name="role_id")
-    private Role role;
+//    @ManyToOne(optional=false, cascade= CascadeType.ALL)
+//    @JoinColumn(name="role_id")
+//    private Role role;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
+    private List<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderField> orderField;
