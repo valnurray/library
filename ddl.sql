@@ -2,7 +2,7 @@
 
 CREATE TABLE role
 (role_id SERIAL PRIMARY KEY,
- userType INT NOT NULL
+ userType VARCHAR(55) NOT NULL
 );
 
 CREATE TABLE usr
@@ -13,8 +13,15 @@ CREATE TABLE usr
  genderType INT NOT NULL,
  birthday DATE,
  role_id INT NOT NULL,
- FOREIGN KEY (role_id) REFERENCES role (role_id)
+ status VARCHAR(55) NOT NULL
 );
+
+CREATE TABLE usr_role
+(role_id int REFERENCES role (role_id) ON UPDATE CASCADE ON DELETE CASCADE,
+ user_id int REFERENCES usr (user_id) ON UPDATE CASCADE,
+ CONSTRAINT role_usr_pkey PRIMARY KEY (role_id, user_id)
+);
+
 
 CREATE TABLE book
 (book_id SERIAL PRIMARY KEY,
