@@ -1,5 +1,6 @@
 package com.lankin.library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,10 @@ public class Role {
 //    @OneToMany(mappedBy="role", fetch= FetchType.EAGER)
 //    private List<User> user;
 
-    @ManyToMany(mappedBy = "role", fetch = FetchType.LAZY)
+//    @ManyToMany(mappedBy = "role", fetch = FetchType.LAZY)
+//    private List<User> users;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
 }
